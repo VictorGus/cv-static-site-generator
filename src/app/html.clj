@@ -76,7 +76,8 @@
     (for [{:keys [photo name]} skills]
       [:div.col-lg-3.col-sm-6.mb-4
        [:div.position-relative.py-2.w-shadow.text-center
-        [:embed {:src photo}]
+        [:embed {:src photo
+                 :style "width: 64px;"}]
         [:h3 name]]])]])
 
 (defn about-section [{{:keys [photo name text education interests]} :about :as config}]
@@ -84,7 +85,7 @@
    [:div.container.pb-5
     [:div.row
      [:div.col-10.mx-auto.col-md-6.order-md-2
-      [:img.img-fluid.photo {:src "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"}]]
+      [:img.img-fluid.photo {:src photo}]]
      [:div.col-md-6.order-md-1.text-center.text-md-left.align-self-center
       [:h2.iam-header (format "I am %s" name)]
       [:p text]]]]
@@ -144,6 +145,98 @@
              [:p (format "Technologies: %s" wired-techs)]
              ]]]
           ]]]))])
+
+(defn cv-as-hiccup [config]
+  [:html
+   [:head
+    [:link {:href       "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            :rel        "stylesheet"
+            :integrity  "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            :crossorigin "anonymous"}]
+    [:link {:href        "https://use.fontawesome.com/releases/v5.6.0/css/all.css"
+            :rel         "stylesheet"
+            :integrity   "sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h"
+            :crossorigin "anonymous"}]]
+   [:body
+    [:style (stringify-styles styles)]
+    [:nav.navbar.navbar-light.fixed-top.navbar-expand-lg.navbar-shadow.bg-white
+     [:div.container.d-flex
+      [:div.mr-auto.p-2
+       [:a.navbar-brand (get-in config [:about :name])]]
+      [:div.p-2
+       [:ul.navbar-nav.ml-auto
+        [:li.nav-item
+         [:a.nav-link {:href "#about"
+                       :data-target "#about"}
+          [:span "Home"]]]
+        [:li.nav-item
+         [:a.nav-link
+          [:span "Publications"]]]
+        [:li.nav-item
+         [:a.nav-link {:href "#skills"
+                       :data-target "#skills"}
+          [:span "Skills"]]]
+        [:li.nav-item
+         [:a.nav-link {:href "#experience"
+                       :data-target "#experience"}
+          [:span "Experience"]]]
+        [:li.nav-item
+         [:a.nav-link
+          [:span "Projects"]]]
+        [:li.nav-item
+         [:a.nav-link
+          [:span "Contact"]]]
+        [:li.nav-item
+         [:a.nav-link
+          [:span "Resume"]]]]]]]
+    (about-section config)
+    [:section.about-section {:id "skills"}
+     (skills-section config)]
+    [:section.about-section.grey-area {:id "experience"}
+     [:div.container
+      [:div.row.pb-4
+       [:div.col-lg-4
+        [:h1.skills-header
+         "Experience"]]
+       (experience-section config)]]]
+    ]]
+  )
+
+(spit "/home/victor/Documents/Pet-Projects/cv/resources/index.html" (hc/html (cv-as-hiccup {:about  {:photo "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"
+                                                                                                     :text "A Data Engineer passionate about Data Science 📊. I like automating things, building pipelines, exploring scalability problems, improving efficiency and performance tuning. I’m a strong advocate for 📜 open source, ☁️ Cloud computing, 🚀 DevOps, 🆕 Innovation and Automation"
+                                                                                                     :name  "Viktor Gusakov"
+                                                                                                     :education [{:university "Leti"
+                                                                                                                  :faculty    "Foo bar"
+                                                                                                                  :graduation "2019"}
+                                                                                                                 {:university "Leti"
+                                                                                                                  :faculty    "Foo bar"
+                                                                                                                  :location  ""
+                                                                                                                  :graduation "2021"}]
+                                                                                                     :interests ["foo bar"]}
+                                                                                            :skills [{:name "Go"
+                                                                                                      :photo "./public/logos/golang-icon.svg"}
+                                                                                                     {:name "Clojure"
+                                                                                                      :photo "./public/logos/clojure-icon.svg"}
+                                                                                                     {:name "C/C++"
+                                                                                                      :photo "./public/logos/c-seeklogo.com.svg"}
+                                                                                                     {:name "PostgreSQL"
+                                                                                                      :photo "./public/logos/postgresql-icon.svg"}
+                                                                                                     {:name "Docker"
+                                                                                                      :photo "./public/logos/docker-icon.svg"}
+                                                                                                     {:name "Kubernetes"
+                                                                                                      :photo "./public/logos/kubernetes-icon.svg"}
+                                                                                                     {:name "Elasticsearch"
+                                                                                                      :photo "./public/logos/elastic-icon.svg"}
+                                                                                                     {:name "AWS"
+                                                                                                      :photo "./public/logos/amazon_aws-icon.svg"}
+                                                                                                     {:name "Travis CI"
+                                                                                                      :photo "./public/logos/travis-ci-icon.svg"}
+                                                                                                     {:name "Git"
+                                                                                                      :photo "./public/logos/git-scm-icon.svg"}
+                                                                                                     {:name "Linux"
+                                                                                                      :photo "./public/logos/linux-icon.svg"}
+                                                                                                     {:name "Vim"
+                                                                                                      :photo "./public/logos/vim-icon.svg"}]})))
 
 (spit
  "/home/victor/Documents/Pet-Projects/cv/resources/index.html"
@@ -368,6 +461,7 @@
    :projects     [{} {}]
    :publications [{}]
    :contact      {}}
+ 
 
 
   )
