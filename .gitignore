@@ -1,2 +1,4 @@
 /.cpcache
 /target
+pom.xml
+app.jar
