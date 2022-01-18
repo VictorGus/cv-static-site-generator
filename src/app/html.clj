@@ -109,42 +109,51 @@
         (for [el interests]
           [:li.about-el el])]]]]]])
 
+(defn first? [idx]
+  (= idx 0))
+
+(defn last? [idx l]
+  (= idx (- l 1)))
+
 (defn experience-section [{:keys [experience] :as config}]
   [:div.col-lg-8
-   (for [{{:keys [name location]} :company
-          position :position
-          period :period
-          highlights :highlights
-          techs :technologies} experience]
-     (let [wired-techs (str/join ", " techs)]
-       [:div.row
-        [:div.col-auto.text-center.flex-column.d-none.d-sm-flex
-         [:div.row.h-50
-          [:div.col]
-          [:div.col]]
-         [:div.m-2
-          [:span.exp-badge.exp-border.badge
-           "''"]]
-         [:div.row.h-50
-          [:div.col.exp-connector]
-          [:div.col]]]
-        [:div.col.py-2
-         [:div.card.w-shadow
-          [:div.card-body
-           [:h4.main-title.card-title.text-muted.mt-0.mb-2 position]
-           [:h4.card-title.text-muted.my-0 name]
-           [:div.text-muted.exp-meta
-            period
-            [:span.exp-divider]
-            [:span.exp-location location]]
-           [:div.card-text.pt-3
-            [:p.highlight "Highlights: "]
-            [:ul
-             (for [el highlights]
-               [:li el])
+   (map-indexed
+    (fn [idx {{:keys [name location]} :company
+              position :position
+              period :period
+              highlights :highlights
+              techs :technologies :as el}]
+      (let [wired-techs (str/join ", " techs)]
+        [:div.row
+         (when (not= 1 (count experience))
+           [:div.col-auto.text-center.flex-column.d-none.d-sm-flex
+            [:div.row.h-50
+             [(if (first? idx) :div.col :div.col.exp-connector)]
+             [:div.col]]
+            [:div.m-2
+             [:span.exp-badge.exp-border.badge
+              "''"]]
+            [:div.row.h-50
+             [(if (not (last? idx (count experience))) :div.col.exp-connector :div.col)]
+             [:div.col]]])
+         [:div.col.py-2
+          [:div.card.w-shadow
+           [:div.card-body
+            [:h4.main-title.card-title.text-muted.mt-0.mb-2 position]
+            [:h4.card-title.text-muted.my-0 name]
+            [:div.text-muted.exp-meta
+             period
+             [:span.exp-divider]
+             [:span.exp-location location]]
+            [:div.card-text.pt-3
+             [:p.highlight "Highlights: "]
+             [:ul
+              (for [el highlights]
+                [:li el])]
              [:p (format "Technologies: %s" wired-techs)]
-             ]]]
-          ]]]))])
+             ]]
+           ]]]))
+    experience)])
 
 (defn cv-as-hiccup [config]
   [:html
@@ -213,6 +222,24 @@
                                                                                                                   :location  ""
                                                                                                                   :graduation "2021"}]
                                                                                                      :interests ["foo bar"]}
+                                                                                            :experience [{:company {:name "Blabla"
+                                                                                                                    :location "Russia, St. Petersburg"}
+                                                                                                          :position "Software Engineer"
+                                                                                                          :period "Aug 2019 - Now"
+                                                                                                          :highlights ["Fooo"]
+                                                                                                          :technologies ["AWS"]}
+                                                                                                         {:company {:name "Blabla"
+                                                                                                                    :location "Russia, St. Petersburg"}
+                                                                                                          :position "Software Engineer"
+                                                                                                          :period "Aug 2019 - Now"
+                                                                                                          :highlights ["Fooo"]
+                                                                                                          :technologies ["AWS"]}
+                                                                                                         {:company {:name "Blabla"
+                                                                                                                    :location "Russia, St. Petersburg"}
+                                                                                                          :position "Software Engineer"
+                                                                                                          :period "Aug 2019 - Now"
+                                                                                                          :highlights ["Fooo"]
+                                                                                                          :technologies ["AWS"]}]
                                                                                             :skills [{:name "Go"
                                                                                                       :photo "./public/logos/golang-icon.svg"}
                                                                                                      {:name "Clojure"
@@ -238,7 +265,7 @@
                                                                                                      {:name "Vim"
                                                                                                       :photo "./public/logos/vim-icon.svg"}]})))
 
-(spit
+#_(spit
  "/home/victor/Documents/Pet-Projects/cv/resources/index.html"
  (hc/html
   [:html
