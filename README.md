@@ -1,1 +1,1 @@
-Just a scraper
+CV static site generator 
