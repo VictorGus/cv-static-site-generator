@@ -71,7 +71,16 @@
                               :height "6px"
                               :border-radius "100%"
                               :right "-17px"
-                              :top "15px"}]])
+                              :top "15px"}]
+   [:.project-link   {:min-height "100px"}
+    [:.project-image {:max-width "100%"
+                      :height "auto"}]]
+   [:.link           {:text-decoration "none"
+                      :font-weight "700"
+                      :text-transform "uppercase"
+                      :color "#000"}]
+   [:.card-description {:font-size "20px"}]
+   ])
 
 (defn skills-section [{:keys [skills] :as config}]
   [:div.container
@@ -177,6 +186,20 @@
         [:a.card-link {:target "_blank" :href link}
          "See certificate"]]]])])
 
+(defn projects-section [{projects :projects :as config}]
+  [:div.row
+   (for [{:keys [name url photo description]} projects]
+     [:div.col-md-4.mb-4
+      [:div.card.w-shadow.p-0
+       [:a.project-link {:href url}
+        [:img.project-image {:src photo}]]
+
+       [:div.card-body.project-body
+        [:h4
+         [:a.link {:href url} name]]
+        [:div.card-description
+         [:p description]]]]])])
+
 (defn cv-as-hiccup [config]
   [:html
    [:head
@@ -238,7 +261,12 @@
      [:div.container
       [:div.text-center.pb-5
        [:h1.skills-header "Accomplishments"]]
-      (accomplishments-section config)
+      (accomplishments-section config)]]
+    [:section.about-section.grey-area {:id "projects"}
+     [:div.container
+      [:div.text-center.pb-5
+       [:h1.skills-header "Projects"]]
+      (projects-section config)
       ]]
     ]])
 
@@ -253,6 +281,28 @@
                                                                                                                   :location  ""
                                                                                                                   :graduation "2021"}]
                                                                                                      :interests ["foo bar"]}
+                                                                                            :projects [
+                                                                                                       {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while exploring interesting patterns. The techniques used include text mining, sentimental analysis, probability, time series analysis and Hierarchical clustering on text/words using R"
+                                                                                                        :name "Test foo"
+                                                                                                        :url "https://google.com"
+                                                                                                        :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
+                                                                                                       {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights whil"
+                                                                                                        :name "Test foo"
+                                                                                                        :url "https://google.com"
+                                                                                                        :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
+                                                                                                       {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights whil"
+                                                                                                        :name "Test foo"
+                                                                                                        :url "https://google.com"
+                                                                                                        :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
+                                                                                                       {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while exploring interesting patterns. The techniques used include text mining, sentimental analysis, probability, time series analysis and Hierarchical clustering on text/words using R"
+                                                                                                        :name "Test foo"
+                                                                                                        :url "https://google.com"
+                                                                                                        :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
+
+                                                                                                       {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while"
+                                                                                                        :name "Test foo foo"
+                                                                                                        :url "https://google.com"
+                                                                                                        :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}]
                                                                                             :accomplishments [{:title "Foo bar"
                                                                                                                :subtitle "Foo"
                                                                                                                :date "Feb 21"
