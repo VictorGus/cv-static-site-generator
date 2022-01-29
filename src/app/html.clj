@@ -10,6 +10,12 @@
   [:body {:font-family "Lato,sans-serif;"}
    [:.navbar-brand  {:font-weight "650"
                      :font-size   "24px"}]
+   [:.contact       {:font-size "21px"
+                     :font-weight "700"
+                     :text-align "center"}]
+   [:.social        {:text-decoration "none"
+                     :color "black"}
+    [:&:hover {:color "red"}]]
    [:.navbar-shadow {:box-shadow "0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%)"
                      :letter-spacing "1px"}]
    [:.highlight     {:font-style "Italic"}]
@@ -102,8 +108,35 @@
      [:div.col-10.mx-auto.col-md-6.order-md-2
       [:img.img-fluid.photo {:src photo}]]
      [:div.col-md-6.order-md-1.text-center.text-md-left.align-self-center
-      [:h2.iam-header "I am " [:strong name]]
-      [:p.about-text text]]]]
+      [:div
+       [:h2.iam-header "I am " [:strong name]]
+       [:p.about-text text]]
+      [:div.row.justify-content-center.pt-3
+       [:div.col-sm-4
+        [:div.contact
+         [:i.fab.fa-github {:style "font-size: 30px;"}]
+         [:p
+          [:a.social {:href "https://github.com/VictorGus" :target "blank"} "GitHub"]]]]
+       [:div.col-sm-4
+        [:div.contact
+         [:i.fas.fa-envelope {:style "font-size: 30px;"}]
+         [:p.social "retaow@gmail.com"]]]
+       [:div.col-sm-4
+        [:div.contact
+         [:i.fab.fa-telegram {:style "font-size: 30px;"}]
+         [:p.social "VictorGus"]]]
+       [:div.col-sm-4
+        [:div.contact
+         [:i.fab.fa-medium {:style "font-size: 30px;"}]
+         [:p
+          [:a.social {:href "https://medium.com/@VictorGus" :target "blank"} "Medium"]]]]
+       [:div.col-sm-4
+        [:div.contact
+         [:i.fa.fa-h-square {:style "font-size: 30px;"}]
+         [:p
+          [:a.social {:href "https://career.habr.com/victor-gusakov" :target "blank"} "Habr Career"]]]]
+       ]
+      ]]]
    [:section.inner-area.grey-area
     [:div.container
      [:div.row
@@ -187,8 +220,22 @@
          "See certificate"]]]])])
 
 (defn projects-section [{projects :projects :as config}]
-  [:div.row
+  [:div.row.justify-content-center
    (for [{:keys [name url photo description]} projects]
+     [:div.col-md-4.mb-4
+      [:div.card.w-shadow.p-0
+       [:a.project-link {:href url}
+        [:img.project-image {:src photo}]]
+
+       [:div.card-body.project-body
+        [:h4
+         [:a.link {:href url} name]]
+        [:div.card-description
+         [:p description]]]]])])
+
+(defn publications-section [{publications :publications :as config}]
+  [:div.row.justify-content-center
+   (for [{:keys [name url photo description]} publications]
      [:div.col-md-4.mb-4
       [:div.card.w-shadow.p-0
        [:a.project-link {:href url}
@@ -224,13 +271,6 @@
                        :data-target "#about"}
           [:span "Home"]]]
         [:li.nav-item
-         [:a.nav-link {:data-target "#accomplishments"
-                       :href "#accomplishments"}
-          [:span "Accomplishments"]]]
-        [:li.nav-item
-         [:a.nav-link
-          [:span "Publications"]]]
-        [:li.nav-item
          [:a.nav-link {:href "#skills"
                        :data-target "#skills"}
           [:span "Skills"]]]
@@ -239,11 +279,17 @@
                        :data-target "#experience"}
           [:span "Experience"]]]
         [:li.nav-item
-         [:a.nav-link
+         [:a.nav-link {:data-target "#accomplishments"
+                       :href "#accomplishments"}
+          [:span "Accomplishments"]]]
+        [:li.nav-item
+         [:a.nav-link {:href "#projects"
+                       :data-target "#projects"}
           [:span "Projects"]]]
         [:li.nav-item
-         [:a.nav-link
-          [:span "Contact"]]]
+         [:a.nav-link {:href "#publications"
+                       :data-target "#publications"}
+          [:span "Publications"]]]
         [:li.nav-item
          [:a.nav-link
           [:span "Resume"]]]]]]]
@@ -266,8 +312,12 @@
      [:div.container
       [:div.text-center.pb-5
        [:h1.skills-header "Projects"]]
-      (projects-section config)
-      ]]
+      (projects-section config)]]
+    [:section.about-section {:id "publications"}
+     [:div.container
+      [:div.text-center.pb-5
+       [:h1.skills-header "Publications"]]
+      (publications-section config)]]
     ]])
 
 (spit "/home/victor/Documents/Pet-Projects/cv/resources/index.html" (hc/html (cv-as-hiccup {:about  {:photo "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"
@@ -281,12 +331,20 @@
                                                                                                                   :location  ""
                                                                                                                   :graduation "2021"}]
                                                                                                      :interests ["foo bar"]}
+                                                                                            :publications [{:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum"
+                                                                                                            :name "Foo bar"
+                                                                                                            :url "https://google.com"
+                                                                                                            :photo "https://www.dankultura.org/wp-content/uploads/2015/10/Article-Writing-Can-be-a-Sure-Wager.jpg"}
+                                                                                                           {:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum"
+                                                                                                            :name "Foo bar"
+                                                                                                            :url "https://google.com"
+                                                                                                            :photo "https://www.dankultura.org/wp-content/uploads/2015/10/Article-Writing-Can-be-a-Sure-Wager.jpg"}
+                                                                                                           {:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum"
+                                                                                                            :name "Foo bar"
+                                                                                                            :url "https://google.com"
+                                                                                                            :photo "https://www.dankultura.org/wp-content/uploads/2015/10/Article-Writing-Can-be-a-Sure-Wager.jpg"}]
                                                                                             :projects [
                                                                                                        {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while exploring interesting patterns. The techniques used include text mining, sentimental analysis, probability, time series analysis and Hierarchical clustering on text/words using R"
-                                                                                                        :name "Test foo"
-                                                                                                        :url "https://google.com"
-                                                                                                        :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
-                                                                                                       {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights whil"
                                                                                                         :name "Test foo"
                                                                                                         :url "https://google.com"
                                                                                                         :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
