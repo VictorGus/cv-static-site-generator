@@ -1,6 +1,7 @@
 (ns app.html
   (:require [hiccup.core :as hc]
             [garden.core :as gc]
+            [clojure.java.io :as io]
             [clojure.string :as str]))
 
 (defn stringify-styles [v]
@@ -101,7 +102,32 @@
                  :style "width: 64px;"}]
         [:h3 name]]])]])
 
-(defn about-section [{{:keys [photo name text education interests]} :about :as config}]
+(defn contact-logos [{:keys [type] :as contacts}]
+  (case type
+    "github"
+    [:i.fab.fa-github      {:style "font-size: 30px;"}]
+
+    "e-mail"
+    [:i.fas.fa-envelope    {:style "font-size: 30px;"}]
+
+    "telegram"
+    [:i.fab.fa-telegram    {:style "font-size: 30px;"}]
+
+    "habr"
+    [:i.fa.fa-h-square     {:style "font-size: 30px;"}]
+
+    "medium"
+    [:i.fab.fa-medium      {:style "font-size: 30px;"}]
+
+    "twitter"
+    [:i.fab.fa-twitter     {:style "font-size: 30px;"}]
+
+    "linked-in"
+    [:i.fab.fa-linkedin-in {:style "font-size: 30px;"}]
+
+    [:i.fas.fa-question-circle {:style "font-size: 30px;"}]))
+
+(defn about-section [{{:keys [photo name text education interests contacts]} :about :as config}]
   [:section.about-section.pb-0 {:id "about"}
    [:div.container.pb-5
     [:div.row
@@ -112,31 +138,14 @@
        [:h2.iam-header "I am " [:strong name]]
        [:p.about-text text]]
       [:div.row.justify-content-center.pt-3
-       [:div.col-sm-4
-        [:div.contact
-         [:i.fab.fa-github {:style "font-size: 30px;"}]
-         [:p
-          [:a.social {:href "https://github.com/VictorGus" :target "blank"} "GitHub"]]]]
-       [:div.col-sm-4
-        [:div.contact
-         [:i.fas.fa-envelope {:style "font-size: 30px;"}]
-         [:p.social "retaow@gmail.com"]]]
-       [:div.col-sm-4
-        [:div.contact
-         [:i.fab.fa-telegram {:style "font-size: 30px;"}]
-         [:p.social "VictorGus"]]]
-       [:div.col-sm-4
-        [:div.contact
-         [:i.fab.fa-medium {:style "font-size: 30px;"}]
-         [:p
-          [:a.social {:href "https://medium.com/@VictorGus" :target "blank"} "Medium"]]]]
-       [:div.col-sm-4
-        [:div.contact
-         [:i.fa.fa-h-square {:style "font-size: 30px;"}]
-         [:p
-          [:a.social {:href "https://career.habr.com/victor-gusakov" :target "blank"} "Habr Career"]]]]
-       ]
-      ]]]
+       (for [{:keys [type name url] :as c} contacts]
+         [:div.col-sm-4
+          [:div.contact
+           (contact-logos c)
+           (if url
+             [:p
+              [:a.social {:href url :target "blank"} name]]
+             [:p.social name])]])]]]]
    [:section.inner-area.grey-area
     [:div.container
      [:div.row
@@ -330,7 +339,12 @@
                                                                                                                   :faculty    "Foo bar"
                                                                                                                   :location  ""
                                                                                                                   :graduation "2021"}]
-                                                                                                     :interests ["foo bar"]}
+                                                                                                     :interests ["foo bar"]
+                                                                                                     :contacts [{:name "GitHub" :type "github" :url "https://github.com/VictorGus"}
+                                                                                                                {:name "retaow@gmail.com" :type "e-mail"}
+                                                                                                                {:name "VictorGus" :type "telegram"}
+                                                                                                                {:name "Habr Career" :type "habr" :url "https://career.habr.com/victor-gusakov"}
+                                                                                                                {:name "Medium" :type "medium" :url "https://medium.com/@VictorGus"}]}
                                                                                             :publications [{:description "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum"
                                                                                                             :name "Foo bar"
                                                                                                             :url "https://google.com"
