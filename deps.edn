@@ -5,7 +5,7 @@
  :deps  {org.clojure/clojure         {:mvn/version "1.10.1"}
          org.clojure/tools.logging   {:mvn/version "0.5.0"}
          cli-matic/cli-matic         {:mvn/version "0.4.3"}
-         http-kit                    {:mvn/version "2.4.0-alpha6"}
+         http-kit                    {:mvn/version "2.6.0-alpha1"}
          clj-yaml                    {:mvn/version "0.4.0"}
          cheshire                    {:mvn/version "5.9.0"}
          garden/garden               {:mvn/version "1.3.10"}

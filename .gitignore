@@ -1,4 +1,5 @@
 /.cpcache
 /target
+/resources/static
 pom.xml
 app.jar
