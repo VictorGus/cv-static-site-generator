@@ -9,6 +9,37 @@
 
 (alter-var-root #'org.httpkit.client/*default-client* (fn [_] sni-client/default-client))
 
+(defmacro get-static []
+  (let [r (str/join
+           " "
+           (reduce (fn [acc f]
+                     (if (.isDirectory f)
+                       (into acc (map (fn [el]
+                                        (str (.getName f) "/" (.getName el)))
+                                      (filter #(not (.isDirectory %)) (file-seq f))))
+                       (if (not (some
+                                 (fn [el]
+                                   (re-find (re-pattern (.getName f)) el))
+                                 acc))
+                         (conj acc (.getName f))
+                         acc)))
+                   []
+                   (->> (str (System/getProperty "user.dir") "/resources" "/public")
+                        io/file
+                        file-seq
+                        (filter #(not (= (.getName %) "public"))))))]
+    `~r))
+
+(defn save-public-files [path]
+  (let [items (str/split (get-static) #" ")]
+    (io/make-parents (format "%s/public/%s" path (first items)))
+
+    (doseq [item items]
+      (with-open [in (io/input-stream
+                      (io/resource (str "public/" item)))
+                  out (io/output-stream (str path "/public/" item))]
+        (io/copy in out)))))
+
 (defn save-remote-image [path url]
   (let [file-name (-> url (str/split #"\/") last)
         path* (str path "/static/" file-name)
@@ -34,14 +65,15 @@
    config))
 
 (defn spit-cv-site [{:keys [output-path] :as config}]
-  (let [config* (pull-remote-resources config)]
+  (let [config* (pull-remote-resources config)
+        _ (save-public-files output-path)]
     (spit
      (str output-path "/index.html")
      (hc/html (cv/cv-as-hiccup config*)))))
 
 (comment
 
-  (spit-cv-site {:output-path "/home/victor/Documents/Pet-Projects/cv/resources"
+  (spit-cv-site {:output-path "/home/victor/Documents/Pet-Projects/cv/output"
                  :about  {:photo "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"
                           :text "A Data Engineer passionate about Data Science 📊. I like automating things, building pipelines, exploring scalability problems, improving efficiency and performance tuning. I’m a strong advocate for 📜 open source, ☁️ Cloud computing, 🚀 DevOps, 🆕 Innovation and Automation"
                           :name  "Viktor Gusakov"
