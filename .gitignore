@@ -2,4 +2,5 @@
 /target
 /resources/static
 pom.xml
+/output/
 app.jar
