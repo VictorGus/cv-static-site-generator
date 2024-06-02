@@ -90,25 +90,38 @@
    ])
 
 (def titles
-  {:skills       {:russian "Навыки"
-                  :english "Skills"}
-   :education    {:russian "Образование"
-                  :english "Educaition"}
-   :interests    {:russian "Интересы"
-                  :english "Interests"}
-   :iam          {:russian "Меня зовут "
-                  :english "I am "}
-   :home         {:russian "О себе"
-                  :english "Home"}
-   :publications {}
+  {:skills          {:russian "Навыки"
+                      :english "Skills"}
+   :education       {:russian "Образование"
+                     :english "Educaition"}
+   :interests       {:russian "Интересы"
+                     :english "Interests"}
+   :iam             {:russian "Меня зовут "
+                     :english "I am "}
+   :home            {:russian "О себе"
+                     :english "Home"}
+   :publications    {:english "Publications"
+                     :russian "Публикации"}
+   :highlights      {:russian "Обязанности"
+                     :english "Highlights"}
+   :technologies    {:russian "Технологии"
+                     :english "Technologies"}
+   :projects        {:russian "Проекты"
+                     :english "Projects"}
+   :experience      {:russian "Опыт работы"
+                     :english "Experience"}
+   :accomplishments {:russian "Достижения"
+                     :english "Accomplishments"}
+   :resume          {:russian "Резюме"
+                     :english "Resume"}
    }
   )
 
-(defn skills-section [{:keys [skills] :as config}]
+(defn skills-section [{:keys [skills language] :as config}]
   [:div.container
    [:div.row.pb-5
     [:div.col-xs-1 {:align "center"}
-     [:h1.skills-header "Skills"]]]
+     [:h1.skills-header (get (:skills titles) language)]]]
    [:div.row
     (for [{:keys [photo name]} skills]
       [:div.col-lg-3.col-sm-6.mb-4
@@ -142,7 +155,7 @@
 
     [:i.fas.fa-question-circle {:style "font-size: 30px;"}]))
 
-(defn about-section [{{:keys [photo name text education interests contacts]} :about :as config}]
+(defn about-section [{{:keys [photo name text education interests contacts]} :about language :language :as config}]
   [:section.about-section.pb-0 {:id "about"}
    [:div.container.pb-5
     [:div.row
@@ -150,7 +163,7 @@
       [:img.img-fluid.photo {:src photo}]]
      [:div.col-md-6.order-md-1.text-center.text-md-left.align-self-center
       [:div
-       [:h2.iam-header "I am " [:strong name]]
+       [:h2.iam-header (str (get (:iam titles) language) " ") [:strong name]]
        [:p.about-text text]]
       [:div.row.justify-content-center.pt-3
        (for [{:keys [type name url] :as c} contacts]
@@ -165,7 +178,7 @@
     [:div.container
      [:div.row
       [:div.col-md-7
-       [:h3 "Education"]
+       [:h3 (get (:education titles) language)]
        [:ul.ul-edu.fa-ul
         (for [{:keys [university faculty graduation]} education]
           [:li.about-el
@@ -176,7 +189,7 @@
             [:p.text-muted
              university]]])]]
       [:div.col-md-5
-       [:h3 "Interests"]
+       [:h3 (get (:interests titles) language)]
        [:ul
         (for [el interests]
           [:li.about-el el])]]]]]])
@@ -187,7 +200,7 @@
 (defn last? [idx l]
   (= idx (- l 1)))
 
-(defn experience-section [{:keys [experience] :as config}]
+(defn experience-section [{:keys [experience language] :as config}]
   [:div.col-lg-8
    (map-indexed
     (fn [idx {{:keys [name location]} :company
@@ -218,11 +231,11 @@
              [:span.exp-divider]
              [:span.exp-location location]]
             [:div.card-text.pt-3
-             [:p.highlight "Highlights: "]
+             [:p.highlight (str (get (:highlights titles) language) ": ")]
              [:ul
               (for [el highlights]
                 [:li el])]
-             [:p (format "Technologies: %s" wired-techs)]
+             [:p (format "%s: %s" (get (:technologies titles) language) wired-techs)]
              ]]
            ]]]))
     experience)])
@@ -271,7 +284,7 @@
         [:div.card-description
          [:p description]]]]])])
 
-(defn cv-as-hiccup [config]
+(defn cv-as-hiccup [{:keys [language] :as config}]
   [:html
    [:head
     [:link {:href       "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -293,30 +306,30 @@
         [:li.nav-item
          [:a.nav-link {:href "#about"
                        :data-target "#about"}
-          [:span "Home"]]]
+          [:span (get (:home titles) language)]]]
         [:li.nav-item
          [:a.nav-link {:href "#skills"
                        :data-target "#skills"}
-          [:span "Skills"]]]
+          [:span (get (:skills titles) language)]]]
         [:li.nav-item
          [:a.nav-link {:href "#experience"
                        :data-target "#experience"}
-          [:span "Experience"]]]
+          [:span (get (:experience titles) language)]]]
         [:li.nav-item
          [:a.nav-link {:data-target "#accomplishments"
                        :href "#accomplishments"}
-          [:span "Accomplishments"]]]
+          [:span (get (:accomplishments titles) language)]]]
         [:li.nav-item
          [:a.nav-link {:href "#projects"
                        :data-target "#projects"}
-          [:span "Projects"]]]
+          [:span (get (:projects titles) language)]]]
         [:li.nav-item
          [:a.nav-link {:href "#publications"
                        :data-target "#publications"}
-          [:span "Publications"]]]
+          [:span (get (:publications titles) language)]]]
         [:li.nav-item
          [:a.nav-link
-          [:span "Resume"]]]]]]]
+          [:span (get (:resume titles) language)]]]]]]]
     (about-section config)
     [:section.about-section {:id "skills"}
      (skills-section config)]
@@ -325,21 +338,21 @@
       [:div.row.pb-4
        [:div.col-lg-4
         [:h1.skills-header
-         "Experience"]]
+         (get (:experience titles) language)]]
        (experience-section config)]]]
     [:section.about-section {:id "accomplishments"}
      [:div.container
       [:div.text-center.pb-5
-       [:h1.skills-header "Accomplishments"]]
+       [:h1.skills-header (get (:accomplishments titles) language)]]
       (accomplishments-section config)]]
     [:section.about-section.grey-area {:id "projects"}
      [:div.container
       [:div.text-center.pb-5
-       [:h1.skills-header "Projects"]]
+       [:h1.skills-header (get (:projects titles) language)]]
       (projects-section config)]]
     [:section.about-section {:id "publications"}
      [:div.container
       [:div.text-center.pb-5
-       [:h1.skills-header "Publications"]]
+       [:h1.skills-header (get (:publications titles) language)]]
       (publications-section config)]]
     ]])
