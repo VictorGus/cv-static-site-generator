@@ -89,6 +89,21 @@
    [:.card-description {:font-size "20px"}]
    ])
 
+(def titles
+  {:skills       {:russian "Навыки"
+                  :english "Skills"}
+   :education    {:russian "Образование"
+                  :english "Educaition"}
+   :interests    {:russian "Интересы"
+                  :english "Interests"}
+   :iam          {:russian "Меня зовут "
+                  :english "I am "}
+   :home         {:russian "О себе"
+                  :english "Home"}
+   :publications {}
+   }
+  )
+
 (defn skills-section [{:keys [skills] :as config}]
   [:div.container
    [:div.row.pb-5

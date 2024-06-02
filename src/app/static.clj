@@ -73,7 +73,7 @@
 
 (comment
 
-  (spit-cv-site {:output-path "/home/victor/Documents/Pet-Projects/cv/output"
+  (spit-cv-site {:output-path "/home/viktor/Pet-Projects/cv-static-site-generator/output"
                  :about  {:photo "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"
                           :text "A Data Engineer passionate about Data Science 📊. I like automating things, building pipelines, exploring scalability problems, improving efficiency and performance tuning. I’m a strong advocate for 📜 open source, ☁️ Cloud computing, 🚀 DevOps, 🆕 Innovation and Automation"
                           :name  "Viktor Gusakov"
@@ -172,7 +172,6 @@
                            :photo "./public/logos/linux-icon.svg"}
                           {:name "Vim"
                            :photo "./public/logos/vim-icon.svg"}]})
-
 
 
   )
