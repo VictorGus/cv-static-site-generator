@@ -32,6 +32,7 @@
 
 (defn save-public-files [path]
   (let [items (str/split (get-static) #" ")]
+    (println items)
     (io/make-parents (format "%s/public/%s" path (first items)))
 
     (doseq [item items]
@@ -75,14 +76,18 @@
 
   (spit-cv-site {:output-path "/home/viktor/Pet-Projects/cv-static-site-generator/output"
                  :about  {:photo "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"
+
+  "https://thomasgeorgethomas.com/img/Profile_Picture.jpg"
+
+  (spit-cv-site {:output-path "/home/viktor/Pet-Projects/cv-static-site-generator/output"
+                 :about  {:photo "./public/photo/photo_2022-10-24_10-09-49.jpg"
                           :text "A Data Engineer passionate about Data Science 📊. I like automating things, building pipelines, exploring scalability problems, improving efficiency and performance tuning. I’m a strong advocate for 📜 open source, ☁️ Cloud computing, 🚀 DevOps, 🆕 Innovation and Automation"
                           :name  "Viktor Gusakov"
-                          :education [{:university "Leti"
-                                       :faculty    "Foo bar"
+                          :education [{:university "Saint Petersburg Electrotechnical University \"LETI\""
+                                       :faculty    "Faculty of Computer Science and Technology (Bachelor)"
                                        :graduation "2019"}
-                                      {:university "Leti"
-                                       :faculty    "Foo bar"
-                                       :location  ""
+                                      {:university "Saint Petersburg Electrotechnical University \"LETI\""
+                                       :faculty    "Faculty of Computer Science and Technology (Master)"
                                        :graduation "2021"}]
                           :interests ["foo bar"]
                           :contacts [{:name "GitHub" :type "github" :url "https://github.com/VictorGus"}
