@@ -81,6 +81,7 @@
                           :name  "Viktor Gusakov"
                           :education [{:university "Saint Petersburg Electrotechnical University \"LETI\""
                                        :faculty    "Faculty of Computer Science and Technology (Bachelor)"
+                                       :department ""
                                        :graduation "2019"}
                                       {:university "Saint Petersburg Electrotechnical University \"LETI\""
                                        :faculty    "Faculty of Computer Science and Technology (Master)"
