@@ -127,7 +127,16 @@
       [:div.col-lg-3.col-sm-6.mb-4
        [:div.position-relative.py-2.w-shadow.text-center
         [:embed {:src photo
-                 :style "width: 64px;"}]
+                 :style (cond
+                          (#{"FreeRTOS"} name)
+                          "width: 164px;"
+
+                          (#{"QT"} name)
+                          "width: 94px;"
+
+                          :other
+                          "width: 64px;"
+                          )}]
         [:h3 name]]])]])
 
 (defn contact-logos [{:keys [type] :as contacts}]
