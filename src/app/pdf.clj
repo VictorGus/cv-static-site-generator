@@ -33,7 +33,7 @@
 (def styles {})
 
 (defn description-section
-  [{{:keys [text name contacts interests]} :about language :language :as config}]
+  [{{:keys [text name photo contacts interests]} :about language :language :as config}]
   [:paragraph 
    [:paragraph
     [:chunk {:size 18} name]
@@ -42,7 +42,7 @@
                 :height 160
                 ;; :align :right
                 :pad-left   100
-                :pad-right  50} "/home/viktor/Pictures/photo.jpg"]]
+                :pad-right  50} photo]]
     [:paragraph
      [:spacer]
      [:paragraph
@@ -64,9 +64,16 @@
    [:paragraph
     [:heading {:style {:size 15}} 
      (get (:skills titles) language)]
-    [:paragraph ""]
+    ;; [:paragraph ""]
     [:paragraph
-     [:list {:symbol "• "}
+     (into
+      [:table {:width 65 :border false :cell-border false}]
+      (for [el (partition 3 (mapv :name skills))]
+        (for [inner-el el]
+          [:chunk (str "• " inner-el)])
+        )
+      )
+     #_[:list {:symbol "• "}
       (for [skill skills]
         [:chunk {:size 11} (str (:name skill) ";")])]]
     ]]
@@ -112,13 +119,30 @@
     ]]
   )
 
-(defn pet-projects-section [{experience :experience language :language :as config}]
+(defn pet-projects-section [{projects :projects language :language :as config}]
   [:paragraph 
    [:paragraph
     [:heading {:style {:size 15}} 
      (get (:projects titles) language)]
     [:paragraph ""]
-    
+    (for [{:keys [name description url highlights technologies]} projects]
+      [:paragraph
+       [:chunk {:style :bold :size 15} "• "]
+       [:paragraph
+        [:anchor {:target url}
+         [:chunk {:style :bold
+                  :size 11}
+          name]]]
+       [:paragraph {:keep-together true :indent 15 :first-line-indent 15}
+        [:chunk {:style :bold :size 18} "  "]
+        [:chunk {:size 10} description]]
+       [:paragraph
+        [:list {:symbol "     -  "}
+         (for [highlight highlights]
+           [:chunk {:size 10} (str highlight ";")])]
+        [:chunk {:style :bold :size 10} (str "   " (get (:technologies titles) language) ": ")]
+        [:chunk {:size 10} (str/join ", " technologies)]]
+       ])
     ]]
   )
 
@@ -166,13 +190,20 @@
   )
 
 (comment
- 
+
+  (clojure.edn/read-string (slurp "src/app/core.clj"))
 
   (save-cv-document {:language :russian
-                     :skills  [{:name "Clojure"
-                                :photo "./public/logos/clojure-icon.svg"}
-                               {:name "C/C++"
+                     :skills  [{:name "C/C++"
                                 :photo "./public/logos/c-seeklogo.com.svg"}
+                               {:name "Linux"
+                                :photo "./public/logos/linux-icon.svg"}
+                               {:name "STM32"}
+                               {:name "FreeRTOS"}
+                               {:name "QT"}
+                               {:name "GTK"}
+                               {:name "Clojure"
+                                :photo "./public/logos/clojure-icon.svg"}
                                {:name "PostgreSQL"
                                 :photo "./public/logos/postgresql-icon.svg"}
                                {:name "Docker"
@@ -183,13 +214,15 @@
                                 :photo "./public/logos/amazon_aws-icon.svg"}
                                {:name "Git"
                                 :photo "./public/logos/git-scm-icon.svg"}
-                               {:name "Linux"
-                                :photo "./public/logos/linux-icon.svg"}
-                               {:name "STM32"}
-                               {:name "FreeRTOS"}
-                               {:name "QT"}
-                               {:name "GTK"}
                                ]
+                     :projects   [{:description "Утилита для настройки работы кулера"
+                                   :technologies ["C" "GTK" "Linux"]
+                                   :highlights ["Реализан GUI с помощью библиотеки GTK"
+                                                "Управление кулером осуществляется с помощью системных вызовов Linux(Raspberry Pi OS)"
+                                                "Может работать в фоновом режиме"]
+                                   :name "Система управления внешним охлаждением CPU для Raspberry Pi"
+                                   :url "https://github.com/VictorGus/cv-static-site-generator"
+                                   :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}]
                      :experience [{:company {:name "ООО «ХЭЛС САМУРАИ» (Health Samurai)"
                                              :location "РФ, Санкт-Петербург"}
                                    :position "Cтажер"
@@ -200,7 +233,7 @@
                                   {:company {:name "ООО «ХЭЛС САМУРАИ» (Health Samurai)"
                                              :location "РФ, Санкт-Петербург"}
                                    :position "Инженер-программист"
-                                   :period "Август 2019"
+                                   :period "C августа 2019 года"
                                    :highlights ["Разработка и поддержка региональной медицинской информационной системы (РМИС) для Чувашской республики"
                                                 "Разработка системы преобразования данных (ETL)"
                                                 "Разработка, проектирование и поддержка системы интеграции и агрегации данных из различных МИС"
@@ -220,6 +253,7 @@
                                           :department "Информатика и вычислительная техника"
                                           :start "2019"
                                           :graduation "2021"}]
+                             :photo "/home/viktor/Pictures/paulpot.jpg"
                              :name "Viktor Gusakov"}} "SAMPLE.pdf")
 
   (pdf/pdf
@@ -233,11 +267,46 @@
        [:paragraph "nested section content"]]]]]
    "SAMPLE.pdf")
 
+  (def skills [{:name "Clojure"
+                :photo "./public/logos/clojure-icon.svg"}
+               {:name "C/C++"
+                :photo "./public/logos/c-seeklogo.com.svg"}
+               {:name "PostgreSQL"
+                :photo "./public/logos/postgresql-icon.svg"}
+               {:name "Docker"
+                :photo "./public/logos/docker-icon.svg"}
+               {:name "Kubernetes"
+                :photo "./public/logos/kubernetes-icon.svg"}
+               {:name "AWS"
+                :photo "./public/logos/amazon_aws-icon.svg"}
+               {:name "Git"
+                :photo "./public/logos/git-scm-icon.svg"}
+               {:name "Linux"
+                :photo "./public/logos/linux-icon.svg"}
+               {:name "STM32"}
+               {:name "FreeRTOS"}
+               {:name "QT"}
+               {:name "QT"}
+               {:name "QT"}
+               {:name "QT"}
+               {:name "QT"}
+               {:name "QT"}
+               {:name "QT"}
+               {:name "QT"}
+               ])
+
+  (partition 4 1 (mapv :name skills))
 
   (pdf/pdf
    [{}
     [:chunk {:size 20} "Viktor Gusakov"]
-    []
+    (into
+     [:table {:width 50 :border false :cell-border false}]
+     (for [el (partition 3 (mapv :name skills))]
+       (for [inner-el el]
+         [:chunk (str "• " inner-el)])
+       )
+     )
     ]
    "SAMPLE.pdf")
 
