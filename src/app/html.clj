@@ -265,10 +265,10 @@
         [:a.card-link {:target "_blank" :href link}
          "See certificate"]]]])])
 
-(defn projects-section [{projects :projects :as config}]
+(defn projects-section [{projects :projects language :language :as config}]
   [:div.row.justify-content-center
-   (for [{:keys [name url photo description]} projects]
-     [:div.col-md-4.mb-4
+   (for [{:keys [name url photo technologies highlights description]} projects]
+     [:div.col-md-5.mb-4
       [:div.card.w-shadow.p-0
        [:a.project-link {:href url}
         [:img.project-image {:src photo}]]
@@ -277,7 +277,12 @@
         [:h4
          [:a.link {:href url} name]]
         [:div.card-description
-         [:p description]]]]])])
+         [:p description]
+         [:ul
+          (for [el highlights]
+            [:li el])]
+         [:p (format "%s: %s" (get (:technologies titles) language) (str/join ", " technologies))]]
+        ]]])])
 
 (defn publications-section [{publications :publications :as config}]
   [:div.row.justify-content-center
