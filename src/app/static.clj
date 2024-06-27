@@ -76,7 +76,7 @@
 
   (spit-cv-site {:output-path "/home/viktor/Pet-Projects/cv-static-site-generator/output"
                  :language :russian
-                 :about  {:photo "./public/photo/photo_2022-10-24_10-09-49.jpg"
+                 :about  {:photo "/home/viktor/Pet-Projects/cv-static-site-generator/resources/public/photo/photo_2022-10-24_10-09-49.jpg"
                           :text "A Data Engineer passionate about Data Science 📊. I like automating things, building pipelines, exploring scalability problems, improving efficiency and performance tuning. I’m a strong advocate for 📜 open source, ☁️ Cloud computing, 🚀 DevOps, 🆕 Innovation and Automation"
                           :name  "Viktor Gusakov"
                           :education [{:university "Saint Petersburg Electrotechnical University \"LETI\""
@@ -104,24 +104,15 @@
                                  :name "Foo bar"
                                  :url "https://google.com"
                                  :photo "https://www.dankultura.org/wp-content/uploads/2015/10/Article-Writing-Can-be-a-Sure-Wager.jpg"}]
-                 :projects [
-                            {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while exploring interesting patterns. The techniques used include text mining, sentimental analysis, probability, time series analysis and Hierarchical clustering on text/words using R"
-                             :name "Test foo"
-                             :url "https://google.com"
-                             :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
-                            {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights whil"
-                             :name "Test foo"
-                             :url "https://google.com"
-                             :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
-                            {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while exploring interesting patterns. The techniques used include text mining, sentimental analysis, probability, time series analysis and Hierarchical clustering on text/words using R"
-                             :name "Test foo"
-                             :url "https://google.com"
-                             :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}
-
-                            {:description "Taking a look at data of 1.6 million twitter users and drawing useful insights while"
-                             :name "Test foo foo"
-                             :url "https://google.com"
-                             :photo "https://vivaldi.com/wp-content/uploads/The_Pomodoro_timer_in_Vivaldi_browser-980x551.png"}]
+                 :projects [{:description "Утилита для настройки работы кулера"
+                             :technologies ["C" "GTK" "Linux"]
+                             :highlights ["Реализован GUI с помощью библиотеки GTK"
+                                          "Управление кулером осуществляется с помощью системных вызовов Linux(Raspberry Pi OS)"
+                                          "Может работать в фоновом режиме"]
+                             :name "Система управления внешним охлаждением CPU для Raspberry Pi"
+                             :url "https://github.com/VictorGus/cv-static-site-generator"
+                             :photo "https://cdn-reichelt.de/bilder/web/xxl_ws/A300/RPI_CASE_STACKP4_01.png"}
+                            ]
                  :accomplishments [{:title "Foo bar"
                                     :subtitle "Foo"
                                     :date "Feb 21"
@@ -132,24 +123,23 @@
                                     :date "Feb 21"
                                     :link "http://localhost:3333"
                                     :text "Foo bar barr get test brr"}]
-                 :experience [{:company {:name "Blabla"
-                                         :location "Russia, St. Petersburg"}
-                               :position "Software Engineer"
-                               :period "Aug 2019 - Now"
-                               :highlights ["Fooo"]
-                               :technologies ["AWS"]}
-                              #_{:company {:name "Blabla"
-                                         :location "Russia, St. Petersburg"}
-                               :position "Software Engineer"
-                               :period "Aug 2019 - Now"
-                               :highlights ["Fooo"]
-                               :technologies ["AWS"]}
-                              #_{:company {:name "Blabla"
-                                         :location "Russia, St. Petersburg"}
-                               :position "Software Engineer"
-                               :period "Aug 2019 - Now"
-                               :highlights ["Fooo"]
-                               :technologies ["AWS"]}]
+                 :experience [{:company {:name "ООО «ХЭЛС САМУРАИ» (Health Samurai)"
+                                         :location "РФ, Санкт-Петербург"}
+                               :position "Cтажер"
+                               :period "Январь 2019 - Август 2019"
+                               :highlights ["Разработка и поддержка open source системы профилирования медицинских данных"
+                                            "Разработка модуля валидации медицинских данных"]
+                               :technologies ["Clojure" "PostgreSQL" "FHIR" "Git"]}
+                              {:company {:name "ООО «ХЭЛС САМУРАИ» (Health Samurai)"
+                                         :location "РФ, Санкт-Петербург"}
+                               :position "Инженер-программист"
+                               :period "C августа 2019 года"
+                               :highlights ["Разработка и поддержка региональной медицинской информационной системы (РМИС) для Чувашской республики"
+                                            "Разработка системы преобразования данных (ETL)"
+                                            "Разработка, проектирование и поддержка системы интеграции и агрегации данных из различных МИС"
+                                            "Поддержка портала для персональных электронных карт здоровья (PHR), работающего по технологии «Smart on FHIR»"
+                                            ]
+                               :technologies ["Clojure" "AWS" "PostgreSQL" "Kubernetes" "Linux" "FHIR" "Git"]}]
                  :skills [{:name "Go"
                            :photo "./public/logos/golang-icon.svg"}
                           {:name "Clojure"
@@ -162,17 +152,19 @@
                            :photo "./public/logos/docker-icon.svg"}
                           {:name "Kubernetes"
                            :photo "./public/logos/kubernetes-icon.svg"}
-                          {:name "Elasticsearch"
-                           :photo "./public/logos/elastic-icon.svg"}
+                          {:name "GTK"
+                           :photo "./public/logos/gtk_icon.png"}
+                          {:name "QT"
+                           :photo "./public/logos/qt_icon.svg"}
                           {:name "AWS"
                            :photo "./public/logos/amazon_aws-icon.svg"}
-                          {:name "Travis CI"
-                           :photo "./public/logos/travis-ci-icon.svg"}
+                          {:name "FreeRTOS"
+                           :photo "./public/logos/freertos_icon.svg"}
                           {:name "Git"
                            :photo "./public/logos/git-scm-icon.svg"}
                           {:name "Linux"
                            :photo "./public/logos/linux-icon.svg"}
-                          {:name "Vim"
-                           :photo "./public/logos/vim-icon.svg"}]})
+                          {:name "STM32"
+                           :photo "./public/logos/stm32_icon.png"}]})
 
   )
